@@ -1,0 +1,19 @@
+{
+	"name": "OpenWeatherAPI",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"parameters": {
+			"API": {
+				"type": "string",
+				"defaultValue": "570cab4134003629803f84567a727bca"
+			}
+		},
+		"annotations": [],
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "https://history.openweathermap.org/data/2.5/history/city?id=2885679&type=hour&appid=570cab4134003629803f84567a727bca",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}

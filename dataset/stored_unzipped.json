@@ -1,0 +1,19 @@
+{
+	"name": "stored_unzipped",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "to_output",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "nhtsa_complaints.txt",
+				"container": "output"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
