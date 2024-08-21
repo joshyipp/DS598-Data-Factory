@@ -1,0 +1,9 @@
+{
+	"name": "DS598JoshYip",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "182c1bcd-1300-40d9-9efa-cce06fad2fae",
+		"tenantId": "d57d32cc-c121-488f-b07b-dfe705680c71"
+	}
+}
