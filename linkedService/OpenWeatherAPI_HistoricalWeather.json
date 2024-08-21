@@ -1,0 +1,12 @@
+{
+	"name": "OpenWeatherAPI_HistoricalWeather",
+	"properties": {
+		"annotations": [],
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "http://api.openweathermap.org/",
+			"enableServerCertificateValidation": false,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
