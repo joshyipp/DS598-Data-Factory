@@ -1,0 +1,20 @@
+{
+	"name": "HistoricalWeatherRawDataset_to_ADLS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "JoshYipADLS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "rawhistoricalweather.json",
+				"folderPath": "raw",
+				"fileSystem": "bigdata-container"
+			}
+		},
+		"schema": {}
+	}
+}

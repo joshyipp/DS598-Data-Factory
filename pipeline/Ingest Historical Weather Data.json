@@ -1,10 +1,10 @@
 {
-	"name": "IngestWeatherData",
+	"name": "Ingest Historical Weather Data",
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
-				"type": "Copy",
+				"name": "Web1",
+				"type": "WebActivity",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -13,43 +13,66 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": [
+				"userProperties": [],
+				"typeProperties": {
+					"method": "GET",
+					"url": "https://joshyipDS591keyvault.vault.azure.net/secrets/OpenWeatherAPIKey?api-version=7.0",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://vault.azure.net"
+					}
+				}
+			},
+			{
+				"name": "Copy Historical Weather",
+				"type": "Copy",
+				"dependsOn": [
 					{
-						"name": "Destination",
-						"value": "bigdata-container/weather/raw"
+						"activity": "Web1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
 					}
 				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "BinarySource",
+						"type": "JsonSource",
 						"storeSettings": {
 							"type": "HttpReadSettings",
 							"requestMethod": "GET"
 						},
 						"formatSettings": {
-							"type": "BinaryReadSettings"
+							"type": "JsonReadSettings"
 						}
 					},
 					"sink": {
-						"type": "BinarySink",
+						"type": "JsonSink",
 						"storeSettings": {
 							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings"
 						}
 					},
 					"enableStaging": false
 				},
 				"inputs": [
 					{
-						"referenceName": "Binary1",
-						"type": "DatasetReference",
-						"parameters": {
-							"API": "570cab4134003629803f84567a727bca"
-						}
+						"referenceName": "HistoricalWeatherDataset",
+						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "Binary2",
+						"referenceName": "HistoricalWeatherRawDataset_to_ADLS",
 						"type": "DatasetReference"
 					}
 				]
