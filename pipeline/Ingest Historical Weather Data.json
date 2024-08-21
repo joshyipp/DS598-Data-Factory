@@ -73,8 +73,7 @@
 							"lon": -71.0589,
 							"start": "1691452800",
 							"end": "1720324800",
-							"appid": "@activity('Web1').output.value",
-							"dataType": "hour"
+							"appid": "@activity('Web1').output.value"
 						}
 					}
 				],

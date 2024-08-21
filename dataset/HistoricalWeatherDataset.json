@@ -25,10 +25,6 @@
 			"appid": {
 				"type": "string",
 				"defaultValue": "@activity('Web1').output.value"
-			},
-			"dataType": {
-				"type": "string",
-				"defaultValue": "hour"
 			}
 		},
 		"annotations": [],
