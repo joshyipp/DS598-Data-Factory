@@ -1,0 +1,168 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "DS598JoshYip"
+		},
+		"AzureDataLakeStorage1_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
+		},
+		"CosmosDbNoSql1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'CosmosDbNoSql1'"
+		},
+		"DataLakeStorage_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'DataLakeStorage'"
+		},
+		"DataLakeStorage2_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'DataLakeStorage2'"
+		},
+		"JoshYipADLS_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'JoshYipADLS'"
+		},
+		"sql_database_connection_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'sql_database_connection'"
+		},
+		"to_output_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'to_output'"
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://joshyipca.dfs.core.windows.net/"
+		},
+		"AzureKeyVault2_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://joshyipDS591keyvault.vault.azure.net/"
+		},
+		"DataLakeStorage_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://bdhomeworkstorage.dfs.core.windows.net/"
+		},
+		"DataLakeStorage2_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://bdhomeworkstorage.dfs.core.windows.net/"
+		},
+		"HttpServer2_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://data.koley.in/tmdb_5000_movies.json"
+		},
+		"JoshYipADLS_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://bdhomeworkstorage.dfs.core.windows.net/"
+		},
+		"JoshYipKeyVault_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://joshyipDS591keyvault.vault.azure.net/"
+		},
+		"OpenWeatherAPI_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://history.openweathermap.org/data/2.5/history/city?id=2885679&type=hour&appid=570cab4134003629803f84567a727bca"
+		},
+		"OpenWeatherAPI_HistoricalAirPollution_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "http://api.openweathermap.org/"
+		},
+		"OpenWeatherAPI_HistoricalWeather_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "http://api.openweathermap.org/"
+		},
+		"online_connection_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://static.nhtsa.gov/odi/ffdd/cmpl/FLAT_CMPL.zip"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "DS598JoshYip_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"AzureDataLakeStorage1_accountKey": {
+						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
+					},
+					"CosmosDbNoSql1_connectionString": {
+						"value": "[parameters('CosmosDbNoSql1_connectionString')]"
+					},
+					"DataLakeStorage_accountKey": {
+						"value": "[parameters('DataLakeStorage_accountKey')]"
+					},
+					"DataLakeStorage2_accountKey": {
+						"value": "[parameters('DataLakeStorage2_accountKey')]"
+					},
+					"JoshYipADLS_accountKey": {
+						"value": "[parameters('JoshYipADLS_accountKey')]"
+					},
+					"sql_database_connection_connectionString": {
+						"value": "[parameters('sql_database_connection_connectionString')]"
+					},
+					"to_output_connectionString": {
+						"value": "[parameters('to_output_connectionString')]"
+					},
+					"AzureDataLakeStorage1_properties_typeProperties_url": {
+						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]"
+					},
+					"AzureKeyVault2_properties_typeProperties_baseUrl": {
+						"value": "[parameters('AzureKeyVault2_properties_typeProperties_baseUrl')]"
+					},
+					"DataLakeStorage_properties_typeProperties_url": {
+						"value": "[parameters('DataLakeStorage_properties_typeProperties_url')]"
+					},
+					"DataLakeStorage2_properties_typeProperties_url": {
+						"value": "[parameters('DataLakeStorage2_properties_typeProperties_url')]"
+					},
+					"HttpServer2_properties_typeProperties_url": {
+						"value": "[parameters('HttpServer2_properties_typeProperties_url')]"
+					},
+					"JoshYipADLS_properties_typeProperties_url": {
+						"value": "[parameters('JoshYipADLS_properties_typeProperties_url')]"
+					},
+					"JoshYipKeyVault_properties_typeProperties_baseUrl": {
+						"value": "[parameters('JoshYipKeyVault_properties_typeProperties_baseUrl')]"
+					},
+					"OpenWeatherAPI_properties_typeProperties_url": {
+						"value": "[parameters('OpenWeatherAPI_properties_typeProperties_url')]"
+					},
+					"OpenWeatherAPI_HistoricalAirPollution_properties_typeProperties_url": {
+						"value": "[parameters('OpenWeatherAPI_HistoricalAirPollution_properties_typeProperties_url')]"
+					},
+					"OpenWeatherAPI_HistoricalWeather_properties_typeProperties_url": {
+						"value": "[parameters('OpenWeatherAPI_HistoricalWeather_properties_typeProperties_url')]"
+					},
+					"online_connection_properties_typeProperties_url": {
+						"value": "[parameters('online_connection_properties_typeProperties_url')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
