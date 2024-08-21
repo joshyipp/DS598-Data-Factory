@@ -244,6 +244,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
+						"fileName": "rawhistoricalweather.json",
+						"folderPath": "raw",
 						"fileSystem": "bigdata-container"
 					}
 				},
