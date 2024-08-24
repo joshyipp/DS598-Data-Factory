@@ -31,6 +31,10 @@
 			"type": "string",
 			"defaultValue": "http://api.openweathermap.org/"
 		},
+		"Restful_Connection_Historical_Weather_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://history.openweathermap.org/"
+		},
 		"online_connection_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://static.nhtsa.gov/odi/ffdd/cmpl/FLAT_CMPL.zip"
@@ -79,6 +83,9 @@
 					},
 					"OpenWeatherAPI_HistoricalWeather_properties_typeProperties_url": {
 						"value": "[parameters('OpenWeatherAPI_HistoricalWeather_properties_typeProperties_url')]"
+					},
+					"Restful_Connection_Historical_Weather_properties_typeProperties_url": {
+						"value": "[parameters('Restful_Connection_Historical_Weather_properties_typeProperties_url')]"
 					},
 					"online_connection_properties_typeProperties_url": {
 						"value": "[parameters('online_connection_properties_typeProperties_url')]"
