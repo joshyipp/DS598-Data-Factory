@@ -5,41 +5,8 @@
 		"factoryName": {
 			"value": "DS598JoshYip"
 		},
-		"AzureDataLakeStorage1_accountKey": {
-			"value": ""
-		},
-		"CosmosDbNoSql1_connectionString": {
-			"value": ""
-		},
-		"DataLakeStorage_accountKey": {
-			"value": ""
-		},
-		"DataLakeStorage2_accountKey": {
-			"value": ""
-		},
 		"JoshYipADLS_accountKey": {
 			"value": ""
-		},
-		"sql_database_connection_connectionString": {
-			"value": ""
-		},
-		"to_output_connectionString": {
-			"value": ""
-		},
-		"AzureDataLakeStorage1_properties_typeProperties_url": {
-			"value": "https://joshyipca.dfs.core.windows.net/"
-		},
-		"AzureKeyVault2_properties_typeProperties_baseUrl": {
-			"value": "https://joshyipDS591keyvault.vault.azure.net/"
-		},
-		"DataLakeStorage_properties_typeProperties_url": {
-			"value": "https://bdhomeworkstorage.dfs.core.windows.net/"
-		},
-		"DataLakeStorage2_properties_typeProperties_url": {
-			"value": "https://bdhomeworkstorage.dfs.core.windows.net/"
-		},
-		"HttpServer2_properties_typeProperties_url": {
-			"value": "https://data.koley.in/tmdb_5000_movies.json"
 		},
 		"JoshYipADLS_properties_typeProperties_url": {
 			"value": "https://bdhomeworkstorage.dfs.core.windows.net/"
