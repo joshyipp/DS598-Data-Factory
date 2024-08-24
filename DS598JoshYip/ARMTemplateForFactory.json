@@ -216,7 +216,7 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "Rest_Connection_Historical_Weather",
+								"referenceName": "HistoricalWeatherRESTDataset",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -236,7 +236,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/Rest_Connection_Historical_Weather')]",
+				"[concat(variables('factoryId'), '/datasets/HistoricalWeatherRESTDataset')]",
 				"[concat(variables('factoryId'), '/datasets/HistoricalWeatherRawDataset_to_ADLS')]"
 			]
 		},
@@ -285,6 +285,55 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/HistoricalWeatherRESTDataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Restful_Connection_Historical_Weather",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"lat": {
+						"type": "float",
+						"defaultValue": 42.3601
+					},
+					"lon": {
+						"type": "float",
+						"defaultValue": -71.0589
+					},
+					"start": {
+						"type": "string",
+						"defaultValue": "1691452800"
+					},
+					"end": {
+						"type": "string",
+						"defaultValue": "1720324800"
+					},
+					"appid": {
+						"type": "string",
+						"defaultValue": "@activity('Web1').output.value"
+					},
+					"dataType": {
+						"type": "string",
+						"defaultValue": "hour"
+					}
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {
+					"relativeUrl": {
+						"value": "data/2.5/history/city?lat=@{dataset().lat}&lon=@{dataset().lon}&type=@{dataset().dataType}&start=@{dataset().start}&end=@{dataset().end}&appid=@{dataset().appid}",
+						"type": "Expression"
+					}
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Restful_Connection_Historical_Weather')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/HistoricalWeatherRawDataset_to_ADLS')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -307,26 +356,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/JoshYipADLS')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Rest_Connection_Historical_Weather')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Restful_Connection_Historical_Weather",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "RestResource",
-				"typeProperties": {
-					"relativeUrl": "https://history.openweathermap.org/"
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Restful_Connection_Historical_Weather')]"
 			]
 		},
 		{
