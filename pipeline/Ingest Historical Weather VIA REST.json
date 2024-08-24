@@ -66,7 +66,15 @@
 				"inputs": [
 					{
 						"referenceName": "HistoricalWeatherRESTDataset",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"lat": 42.3601,
+							"lon": -71.0589,
+							"start": "1724356800",
+							"end": "1724443200",
+							"appid": "@activity('Web1').output.value",
+							"dataType": "hour"
+						}
 					}
 				],
 				"outputs": [
