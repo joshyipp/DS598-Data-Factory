@@ -1,5 +1,5 @@
 {
-	"name": "pipeline1",
+	"name": "Ingest Historical Weather VIA REST",
 	"properties": {
 		"activities": [
 			{
