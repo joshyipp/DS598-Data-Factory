@@ -25,13 +25,17 @@
 			"appid": {
 				"type": "string",
 				"defaultValue": "@activity('Web1').output.value"
+			},
+			"dataType": {
+				"type": "string",
+				"defaultValue": "hour"
 			}
 		},
 		"annotations": [],
 		"type": "RestResource",
 		"typeProperties": {
 			"relativeUrl": {
-				"value": "data/2.5/history/city?lat=@{dataset().lat}&lon=@{dataset().lon}&type=@{dataset()}&start=@{dataset().start}&end=@{dataset().end}&appid=@{dataset().appid}",
+				"value": "data/2.5/history/city?lat=@{dataset().lat}&lon=@{dataset().lon}&type=@{dataset().dataType}&start=@{dataset().start}&end=@{dataset().end}&appid=@{dataset().appid}",
 				"type": "Expression"
 			}
 		},
