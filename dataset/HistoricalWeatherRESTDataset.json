@@ -1,0 +1,15 @@
+{
+	"name": "HistoricalWeatherRESTDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Restful_Connection_Historical_Weather",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": "data/2.5/history/city?lat=@{dataset().lat}&lon=@{dataset().lon}&type=@{dataset().dataType}&start=@{dataset().start}&end=@{dataset().end}&appid=@{dataset().appid}"
+		},
+		"schema": []
+	}
+}
