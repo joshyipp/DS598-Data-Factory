@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"method": "GET",
-					"url": "https://joshyipkeyvault.vault.azure.net/secrets/OpenWeatherAPIKey2?api-version=7.0",
+					"url": "https://joshyipkeyvault.vault.azure.net/secrets/OpenWeatherAPIKey?api-version=7.0",
 					"authentication": {
 						"type": "MSI",
 						"resource": "https://vault.azure.net"
