@@ -65,7 +65,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "Rest_Connection_Historical_Weather",
+						"referenceName": "HistoricalWeatherRESTDataset",
 						"type": "DatasetReference"
 					}
 				],
