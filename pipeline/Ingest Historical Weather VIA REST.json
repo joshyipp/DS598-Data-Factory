@@ -102,17 +102,19 @@
 		],
 		"parameters": {
 			"startDate": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "@addDays(utcNow(), -1)"
 			},
 			"endDate": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "@utcNow()"
 			},
 			"dateRanges": {
 				"type": "array",
 				"defaultValue": [
 					{
-						"start": 1724356800,
-						"end": 1724443200
+						"start": 1725148800,
+						"end": 1725235200
 					}
 				]
 			}
