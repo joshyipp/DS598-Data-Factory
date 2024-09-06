@@ -82,8 +82,8 @@
 									"parameters": {
 										"lat": 42.3601,
 										"lon": -71.0589,
-										"start": "1724356800",
-										"end": "1724443200",
+										"start": "@addDays(utcNow(), -1)",
+										"end": "@utcNow()",
 										"appid": "@activity('Web1').output.value",
 										"dataType": "hour"
 									}
