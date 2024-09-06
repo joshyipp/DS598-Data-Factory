@@ -493,11 +493,11 @@
 				"parameters": {
 					"startDate": {
 						"type": "string",
-						"defaultValue": "@addDays(pipeline().parameters.startDate, mul(item(), pipeline().parameters.intervalDays))"
+						"defaultValue": "@div(sub(ticks(formatDateTime(addDays(pipeline().parameters.startDate, mul(item(), int(pipeline().parameters.intervalDays))), 'yyyy-MM-ddTHH:mm:ssZ')), ticks('1970-01-01T00:00:00Z')), 10000000)"
 					},
 					"endDate": {
 						"type": "string",
-						"defaultValue": "@addDays(pipeline().parameters.startDate, mul(add(item(), 1), pipeline().parameters.intervalDays))"
+						"defaultValue": "@div(sub(ticks(formatDateTime(addDays(pipeline().parameters.startDate, mul(add(item(), 1), int(pipeline().parameters.intervalDays))), 'yyyy-MM-ddTHH:mm:ssZ')), ticks('1970-01-01T00:00:00Z')), 10000000)"
 					},
 					"dateRanges": {
 						"type": "array",
