@@ -264,18 +264,18 @@
 				"parameters": {
 					"startDate": {
 						"type": "string",
-						"defaultValue": "@addDays(utcNow(), -2)"
+						"defaultValue": "@div(sub(ticks(utcNow()-2, ticks('1970-01-01T00:00:00Z')), 10000000)"
 					},
 					"endDate": {
 						"type": "string",
-						"defaultValue": "@addDays(utcNow(), -1)"
+						"defaultValue": "@div(sub(ticks(utcNow()-1), ticks('1970-01-01T00:00:00Z')), 10000000)"
 					},
 					"dateRanges": {
 						"type": "array",
 						"defaultValue": [
 							{
-								"start": "@addDays(utcNow(), -2)",
-								"end": "@@addDays(utcNow(), -1))"
+								"start": "@{div(sub(ticks(addDays(utcNow(), -2)), ticks('1970-01-01T00:00:00Z')), 10000000)}",
+								"end": "@{div(sub(ticks(addDays(utcNow(), -1)), ticks('1970-01-01T00:00:00Z')), 10000000)}"
 							}
 						]
 					}
