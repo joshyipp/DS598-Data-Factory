@@ -1,5 +1,5 @@
 {
-	"name": "Ingest Historical Weather VIA REST",
+	"name": "Ingest Historical Weather VIA REST DYNAMICALLY PROGRAMMED",
 	"properties": {
 		"activities": [
 			{
@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"method": "GET",
-					"url": "https://joshyipkeyvault.vault.azure.net/secrets/OpenWeatherAPIKey?api-version=7.0",
+					"url": "https://joshyipkeyvault.vault.azure.net/secrets/OpenWeatherAPIKeyhttps://joshyipkeyvault.vault.azure.net/secrets/OpenWeatherAPIKey?api-version=7.0",
 					"authentication": {
 						"type": "MSI",
 						"resource": "https://vault.azure.net"
