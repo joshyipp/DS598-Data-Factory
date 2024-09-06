@@ -113,8 +113,8 @@
 				"type": "array",
 				"defaultValue": [
 					{
-						"start": 1725148800,
-						"end": 1725235200
+						"start": "@addDays(utcNow(), -1)",
+						"end": "@utcNow()"
 					}
 				]
 			}
