@@ -83,8 +83,14 @@
 									"parameters": {
 										"lat": 42.3601,
 										"lon": -71.0589,
-										"start": "@div(sub(ticks(addDays(pipeline().parameters.startDate, mul(item(), pipeline().parameters.intervalDays))), ticks('1970-01-01T00:00:00Z')), 10000000)",
-										"end": "@div(sub(ticks(addDays(pipeline().parameters.startDate, mul(add(item(), 1), pipeline().parameters.intervalDays))), ticks('1970-01-01T00:00:00Z')), 10000000)",
+										"start": {
+											"value": "@item().start",
+											"type": "Expression"
+										},
+										"end": {
+											"value": "@item().end",
+											"type": "Expression"
+										},
 										"appid": "@activity('Web1').output.value",
 										"dataType": "hour"
 									}
