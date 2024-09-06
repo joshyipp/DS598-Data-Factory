@@ -191,7 +191,7 @@
 								"value": "@pipeline().parameters.dateRanges",
 								"type": "Expression"
 							},
-							"isSequential": false,
+							"isSequential": true,
 							"activities": [
 								{
 									"name": "Copy data1_copy1",
@@ -234,7 +234,7 @@
 												"lat": 42.3601,
 												"lon": -71.0589,
 												"start": {
-													"value": "@div(sub(ticks(addDays(utcNow(), -365)), ticks('1970-01-01T00:00:00Z')), 10000000)",
+													"value": "@div(sub(ticks(addDays(utcNow(), -100)), ticks('1970-01-01T00:00:00Z')), 10000000)",
 													"type": "Expression"
 												},
 												"end": {
@@ -264,7 +264,7 @@
 				"parameters": {
 					"startDate": {
 						"type": "string",
-						"defaultValue": "@div(sub(ticks(addDays(utcNow(), -365)), ticks('1970-01-01T00:00:00Z')), 10000000)"
+						"defaultValue": "@div(sub(ticks(addDays(utcNow(), -100)), ticks('1970-01-01T00:00:00Z')), 10000000)"
 					},
 					"endDate": {
 						"type": "string",
@@ -274,7 +274,7 @@
 						"type": "array",
 						"defaultValue": [
 							{
-								"start": "@{div(sub(ticks(addDays(utcNow(), -365)), ticks('1970-01-01T00:00:00Z')), 10000000)}",
+								"start": "@{div(sub(ticks(addDays(utcNow(),-100)), ticks('1970-01-01T00:00:00Z')), 10000000)}",
 								"end": "@{div(sub(ticks(addDays(utcNow(), -1)), ticks('1970-01-01T00:00:00Z')), 10000000)}"
 							}
 						]
