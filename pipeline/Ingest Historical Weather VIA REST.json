@@ -116,15 +116,6 @@
 				"type": "string",
 				"defaultValue": "@div(sub(ticks(formatDateTime(addDays(pipeline().parameters.startDate, mul(add(item(), 1), int(pipeline().parameters.intervalDays))), 'yyyy-MM-ddTHH:mm:ssZ')), ticks('1970-01-01T00:00:00Z')), 10000000)"
 			},
-			"dateRanges": {
-				"type": "array",
-				"defaultValue": [
-					{
-						"start": "@{div(sub(ticks(addDays(utcNow(),-100)), ticks('1970-01-01T00:00:00Z')), 10000000)}",
-						"end": "@{div(sub(ticks(addDays(utcNow(), -1)), ticks('1970-01-01T00:00:00Z')), 10000000)}"
-					}
-				]
-			},
 			"intervalDays": {
 				"type": "int",
 				"defaultValue": 7
