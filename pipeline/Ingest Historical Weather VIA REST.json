@@ -109,10 +109,12 @@
 		],
 		"parameters": {
 			"startDate": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "@item().start"
 			},
 			"endDate": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "@item().end"
 			},
 			"dateRanges": {
 				"type": "array",
