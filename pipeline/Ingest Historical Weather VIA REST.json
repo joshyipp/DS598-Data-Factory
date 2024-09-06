@@ -83,6 +83,78 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Web1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"isSequential": false,
+					"activities": [
+						{
+							"name": "Copy data1_copy1",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "RestSource",
+									"httpRequestTimeout": "00:01:40",
+									"requestInterval": "00.00:00:00.010",
+									"requestMethod": "GET",
+									"paginationRules": {
+										"supportRFC5988": "true"
+									}
+								},
+								"sink": {
+									"type": "JsonSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "JsonWriteSettings"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "HistoricalWeatherRESTDataset",
+									"type": "DatasetReference",
+									"parameters": {
+										"lat": 42.3601,
+										"lon": -71.0589,
+										"start": "1724356800",
+										"end": "1724443200",
+										"appid": "@activity('Web1').output.value",
+										"dataType": "hour"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "HistoricalWeatherRawDataset_to_ADLS",
+									"type": "DatasetReference"
+								}
+							]
+						}
+					]
+				}
 			}
 		],
 		"annotations": []
