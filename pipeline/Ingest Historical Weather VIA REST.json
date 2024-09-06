@@ -83,11 +83,11 @@
 										"lat": 42.3601,
 										"lon": -71.0589,
 										"start": {
-											"value": "@addDays(utcNow(), -2)",
+											"value": "@div(sub(ticks(addDays(utcNow(), -2)), ticks('1970-01-01T00:00:00Z')), 10000000)",
 											"type": "Expression"
 										},
 										"end": {
-											"value": "@addDays(utcNow(), -1)",
+											"value": "@div(sub(ticks(addDays(utcNow(), -1)), ticks('1970-01-01T00:00:00Z')), 10000000)",
 											"type": "Expression"
 										},
 										"appid": "@activity('Web1').output.value",
