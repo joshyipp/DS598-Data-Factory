@@ -82,8 +82,14 @@
 									"parameters": {
 										"lat": 42.3601,
 										"lon": -71.0589,
-										"start": "@addDays(utcNow(), -1)",
-										"end": "@utcNow()",
+										"start": {
+											"value": "@addDays(utcNow(), -2)",
+											"type": "Expression"
+										},
+										"end": {
+											"value": "@addDays(utcNow(), -1)",
+											"type": "Expression"
+										},
 										"appid": "@activity('Web1').output.value",
 										"dataType": "hour"
 									}
@@ -103,18 +109,18 @@
 		"parameters": {
 			"startDate": {
 				"type": "string",
-				"defaultValue": "@addDays(utcNow(), -1)"
+				"defaultValue": "@addDays(utcNow(), -2)"
 			},
 			"endDate": {
 				"type": "string",
-				"defaultValue": "@utcNow()"
+				"defaultValue": "@addDays(utcNow(), -1)"
 			},
 			"dateRanges": {
 				"type": "array",
 				"defaultValue": [
 					{
-						"start": "@addDays(utcNow(), -1)",
-						"end": "@utcNow()"
+						"start": "@addDays(utcNow(), -2)",
+						"end": "@@addDays(utcNow(), -1))"
 					}
 				]
 			}
