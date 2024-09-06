@@ -188,7 +188,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"items": {
-								"value": "@range(0, div(sub(ticks(pipeline().parameters.endDate), ticks(pipeline().parameters.startDate)), mul(10000000, mul(86400, pipeline().parameters.intervalDays))))\n",
+								"value": "@pipeline().parameters.dateRanges",
 								"type": "Expression"
 							},
 							"isSequential": true,
@@ -264,25 +264,43 @@
 				},
 				"parameters": {
 					"startDate": {
-						"type": "string",
-						"defaultValue": "@div(sub(ticks(formatDateTime(addDays(pipeline().parameters.startDate, mul(item(), int(pipeline().parameters.intervalDays))), 'yyyy-MM-ddTHH:mm:ssZ')), ticks('1970-01-01T00:00:00Z')), 10000000)"
+						"type": "string"
 					},
 					"endDate": {
-						"type": "string",
-						"defaultValue": "@div(sub(ticks(formatDateTime(addDays(pipeline().parameters.startDate, mul(add(item(), 1), int(pipeline().parameters.intervalDays))), 'yyyy-MM-ddTHH:mm:ssZ')), ticks('1970-01-01T00:00:00Z')), 10000000)"
+						"type": "string"
 					},
 					"dateRanges": {
 						"type": "array",
 						"defaultValue": [
 							{
-								"start": "@{div(sub(ticks(addDays(utcNow(),-100)), ticks('1970-01-01T00:00:00Z')), 10000000)}",
-								"end": "@{div(sub(ticks(addDays(utcNow(), -1)), ticks('1970-01-01T00:00:00Z')), 10000000)}"
+								"start": "1723047463",
+								"end": "1723652263"
+							},
+							{
+								"start": "1723652263",
+								"end": "1724257063"
+							},
+							{
+								"start": "1724257063",
+								"end": "1724861863"
+							},
+							{
+								"start": "1724861863",
+								"end": "1725466663"
+							},
+							{
+								"start": "1725466663",
+								"end": "1726071463"
+							},
+							{
+								"start": "1726071463",
+								"end": "1726676263"
+							},
+							{
+								"start": "1726676263",
+								"end": "1727281063"
 							}
 						]
-					},
-					"intervalDays": {
-						"type": "int",
-						"defaultValue": 7
 					}
 				},
 				"annotations": []
@@ -356,11 +374,11 @@
 					},
 					"start": {
 						"type": "string",
-						"defaultValue": "@{div(sub(ticks(addDays(utcNow(),-100)), ticks('1970-01-01T00:00:00Z')), 10000000)}"
+						"defaultValue": "@item().start"
 					},
 					"end": {
 						"type": "string",
-						"defaultValue": "@{div(sub(ticks(addDays(utcNow(),-1)), ticks('1970-01-01T00:00:00Z')), 10000000)}"
+						"defaultValue": "@item().end"
 					},
 					"appid": {
 						"type": "string",
@@ -519,6 +537,170 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Ingest Historical Weather VIA REST DYNAMICALLY PROGRAMMED')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Web1",
+						"type": "WebActivity",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"method": "GET",
+							"headers": {},
+							"url": "https://joshyipkeyvault.vault.azure.net/secrets/OpenWeatherAPIKeyhttps://joshyipkeyvault.vault.azure.net/secrets/OpenWeatherAPIKey?api-version=7.0",
+							"authentication": {
+								"type": "MSI",
+								"resource": "https://vault.azure.net"
+							}
+						}
+					},
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Web1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@pipeline().parameters.dateRanges",
+								"type": "Expression"
+							},
+							"isSequential": true,
+							"activities": [
+								{
+									"name": "Copy data1_copy1",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "RestSource",
+											"httpRequestTimeout": "00:01:40",
+											"requestInterval": "00.00:00:00.010",
+											"requestMethod": "GET",
+											"paginationRules": {
+												"supportRFC5988": "true"
+											}
+										},
+										"sink": {
+											"type": "JsonSink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings",
+												"copyBehavior": "FlattenHierarchy"
+											},
+											"formatSettings": {
+												"type": "JsonWriteSettings"
+											}
+										},
+										"enableStaging": false
+									},
+									"inputs": [
+										{
+											"referenceName": "HistoricalWeatherRESTDataset",
+											"type": "DatasetReference",
+											"parameters": {
+												"lat": 42.3601,
+												"lon": -71.0589,
+												"start": {
+													"value": "@item().start",
+													"type": "Expression"
+												},
+												"end": {
+													"value": "@item().end",
+													"type": "Expression"
+												},
+												"appid": "@activity('Web1').output.value",
+												"dataType": "hour"
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "HistoricalWeatherRawDataset_to_ADLS",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"startDate": {
+						"type": "string"
+					},
+					"endDate": {
+						"type": "string"
+					},
+					"dateRanges": {
+						"type": "array",
+						"defaultValue": [
+							{
+								"start": "1723047463",
+								"end": "1723652263"
+							},
+							{
+								"start": "1723652263",
+								"end": "1724257063"
+							},
+							{
+								"start": "1724257063",
+								"end": "1724861863"
+							},
+							{
+								"start": "1724861863",
+								"end": "1725466663"
+							},
+							{
+								"start": "1725466663",
+								"end": "1726071463"
+							},
+							{
+								"start": "1726071463",
+								"end": "1726676263"
+							},
+							{
+								"start": "1726676263",
+								"end": "1727281063"
+							}
+						]
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/HistoricalWeatherRESTDataset')]",
+				"[concat(variables('factoryId'), '/datasets/HistoricalWeatherRawDataset_to_ADLS')]"
+			]
 		}
 	]
 }
