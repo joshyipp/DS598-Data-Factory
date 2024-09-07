@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"method": "GET",
-					"url": "https://joshyipkeyvault.vault.azure.net/secrets/OpenWeatherAPIKeyhttps://joshyipkeyvault.vault.azure.net/secrets/OpenWeatherAPIKey?api-version=7.0",
+					"url": "https://joshyipkeyvault.vault.azure.net/secrets/OpenWeatherAPIKey?api-version=7.0",
 					"authentication": {
 						"type": "MSI",
 						"resource": "https://vault.azure.net"
@@ -28,7 +28,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Web1",
+						"activity": "ForEach2",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -37,7 +37,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@pipeline().parameters.dateRanges",
+						"value": "@variables('dateRangesVariable')",
 						"type": "Expression"
 					},
 					"isSequential": true,
@@ -105,6 +105,41 @@
 						}
 					]
 				}
+			},
+			{
+				"name": "ForEach2",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Web1",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@range(0, 52)",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Append variable1",
+							"type": "AppendVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "dateRangesVariable",
+								"value": {
+									"value": "{\n  \"start\": \"@{div(sub(ticks(addDays(utcNow(), mul(item(), -7))), ticks('1970-01-01T00:00:00Z')), 10000000)}\",\n  \"end\": \"@{div(sub(ticks(addDays(utcNow(), mul(add(item(), 1), -7))), ticks('1970-01-01T00:00:00Z')), 10000000)}\"\n}\n",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
 			}
 		],
 		"parameters": {
@@ -113,39 +148,11 @@
 			},
 			"endDate": {
 				"type": "string"
-			},
-			"dateRanges": {
-				"type": "array",
-				"defaultValue": [
-					{
-						"start": "1723047463",
-						"end": "1723652263"
-					},
-					{
-						"start": "1723652263",
-						"end": "1724257063"
-					},
-					{
-						"start": "1724257063",
-						"end": "1724861863"
-					},
-					{
-						"start": "1724861863",
-						"end": "1725466663"
-					},
-					{
-						"start": "1725466663",
-						"end": "1726071463"
-					},
-					{
-						"start": "1726071463",
-						"end": "1726676263"
-					},
-					{
-						"start": "1726676263",
-						"end": "1727281063"
-					}
-				]
+			}
+		},
+		"variables": {
+			"dateRangesVariable": {
+				"type": "Array"
 			}
 		},
 		"annotations": []
