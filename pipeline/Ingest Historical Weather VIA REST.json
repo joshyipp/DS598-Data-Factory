@@ -37,7 +37,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@pipeline().parameters.dateRanges",
+						"value": "@range(0,2)",
 						"type": "Expression"
 					},
 					"isSequential": true,
@@ -84,11 +84,11 @@
 										"lat": 42.3601,
 										"lon": -71.0589,
 										"start": {
-											"value": "@item().start",
+											"value": "@string(div(ticks(addDays(utcNow(), mul(item(), -7))), 10000000))",
 											"type": "Expression"
 										},
 										"end": {
-											"value": "@item().end",
+											"value": "@string(div(ticks(addDays(utcNow(), mul(add(item(), 1), -7))), 10000000))\n",
 											"type": "Expression"
 										},
 										"appid": "@activity('Web1').output.value",
@@ -113,39 +113,20 @@
 			},
 			"endDate": {
 				"type": "string"
-			},
-			"dateRanges": {
-				"type": "array",
+			}
+		},
+		"variables": {
+			"dateRangesVar2": {
+				"type": "Array",
 				"defaultValue": [
 					{
-						"start": "1723047463",
-						"end": "1723652263"
-					},
-					{
-						"start": "1723652263",
-						"end": "1724257063"
-					},
-					{
-						"start": "1724257063",
-						"end": "1724861863"
-					},
-					{
-						"start": "1724861863",
-						"end": "1725466663"
-					},
-					{
-						"start": "1725466663",
-						"end": "1726071463"
-					},
-					{
-						"start": "1726071463",
-						"end": "1726676263"
-					},
-					{
-						"start": "1726676263",
-						"end": "1727281063"
+						"start": "1691452800",
+						"end": "1692057600"
 					}
 				]
+			},
+			"test": {
+				"type": "Array"
 			}
 		},
 		"annotations": []
