@@ -1,5 +1,5 @@
 {
-	"name": "Ingest Historical Weather VIA APPENDING AND SETTING VARIABLES",
+	"name": "Ingest Historical Weather Data Set Start and End Dates",
 	"properties": {
 		"activities": [
 			{
@@ -28,16 +28,16 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Web1",
+						"activity": "Set variable1",
 						"dependencyConditions": [
-							"Completed"
+							"Succeeded"
 						]
 					}
 				],
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@pipeline().parameters.dateRanges",
+						"value": "@variables('test')",
 						"type": "Expression"
 					},
 					"isSequential": true,
@@ -83,14 +83,6 @@
 									"parameters": {
 										"lat": 42.3601,
 										"lon": -71.0589,
-										"start": {
-											"value": "@item().start",
-											"type": "Expression"
-										},
-										"end": {
-											"value": "@item().end",
-											"type": "Expression"
-										},
 										"appid": "@activity('Web1').output.value",
 										"dataType": "hour"
 									}
@@ -104,6 +96,65 @@
 							]
 						}
 					]
+				}
+			},
+			{
+				"name": "ForEach2",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Web1",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@range(0,3)",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Append variable1",
+							"type": "AppendVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "dateRangesVar2",
+								"value": {
+									"value": "@json('{\"start\": 1691452800,\"end\":1692057600}')",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "ForEach2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "test",
+					"value": {
+						"value": "@json(concat('[', join(variables('dateRangesVar2'), ','), ']'))",
+						"type": "Expression"
+					}
 				}
 			}
 		],
