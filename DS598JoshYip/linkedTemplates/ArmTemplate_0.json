@@ -218,12 +218,10 @@
 						"defaultValue": -71.0589
 					},
 					"start": {
-						"type": "string",
-						"defaultValue": "@item().start"
+						"type": "string"
 					},
 					"end": {
-						"type": "string",
-						"defaultValue": "@item().end"
+						"type": "string"
 					},
 					"appid": {
 						"type": "string",
@@ -375,177 +373,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Ingest Historical Weather VIA REST DYNAMICALLY PROGRAMMED')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Web1",
-						"type": "WebActivity",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"method": "GET",
-							"headers": {},
-							"url": "https://joshyipkeyvault.vault.azure.net/secrets/OpenWeatherAPIKey?api-version=7.0",
-							"authentication": {
-								"type": "MSI",
-								"resource": "https://vault.azure.net"
-							}
-						}
-					},
-					{
-						"name": "ForEach1",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "ForEach2",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@variables('dateRangesVariable')",
-								"type": "Expression"
-							},
-							"isSequential": true,
-							"activities": [
-								{
-									"name": "Copy data1_copy1",
-									"type": "Copy",
-									"dependsOn": [],
-									"policy": {
-										"timeout": "0.12:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"source": {
-											"type": "RestSource",
-											"httpRequestTimeout": "00:01:40",
-											"requestInterval": "00.00:00:00.010",
-											"requestMethod": "GET",
-											"paginationRules": {
-												"supportRFC5988": "true"
-											}
-										},
-										"sink": {
-											"type": "JsonSink",
-											"storeSettings": {
-												"type": "AzureBlobFSWriteSettings",
-												"copyBehavior": "FlattenHierarchy"
-											},
-											"formatSettings": {
-												"type": "JsonWriteSettings"
-											}
-										},
-										"enableStaging": false
-									},
-									"inputs": [
-										{
-											"referenceName": "HistoricalWeatherRESTDataset",
-											"type": "DatasetReference",
-											"parameters": {
-												"lat": 42.3601,
-												"lon": -71.0589,
-												"start": {
-													"value": "@item().start",
-													"type": "Expression"
-												},
-												"end": {
-													"value": "@item().end",
-													"type": "Expression"
-												},
-												"appid": "@activity('Web1').output.value",
-												"dataType": "hour"
-											}
-										}
-									],
-									"outputs": [
-										{
-											"referenceName": "HistoricalWeatherRawDataset_to_ADLS",
-											"type": "DatasetReference",
-											"parameters": {}
-										}
-									]
-								}
-							]
-						}
-					},
-					{
-						"name": "ForEach2",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "Web1",
-								"dependencyConditions": [
-									"Completed"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@range(0, 52)",
-								"type": "Expression"
-							},
-							"isSequential": true,
-							"activities": [
-								{
-									"name": "Append variable1",
-									"type": "AppendVariable",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"variableName": "dateRangesVariable",
-										"value": {
-											"value": "{\n  \"start\": \"@{div(sub(ticks(addDays(utcNow(), mul(item(), -7))), ticks('1970-01-01T00:00:00Z')), 10000000)}\",\n  \"end\": \"@{div(sub(ticks(addDays(utcNow(), mul(add(item(), 1), -7))), ticks('1970-01-01T00:00:00Z')), 10000000)}\"\n}\n",
-											"type": "Expression"
-										}
-									}
-								}
-							]
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"parameters": {
-					"startDate": {
-						"type": "string"
-					},
-					"endDate": {
-						"type": "string"
-					}
-				},
-				"variables": {
-					"dateRangesVariable": {
-						"type": "Array"
-					}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/HistoricalWeatherRESTDataset')]",
-				"[concat(variables('factoryId'), '/datasets/HistoricalWeatherRawDataset_to_ADLS')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/Ingest Historical Weather VIA REST')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -587,13 +414,13 @@
 						"userProperties": [],
 						"typeProperties": {
 							"items": {
-								"value": "@pipeline().parameters.dateRanges",
+								"value": "@range(0, pipeline().parameters.weeksAgo)",
 								"type": "Expression"
 							},
 							"isSequential": true,
 							"activities": [
 								{
-									"name": "Copy data1_copy1",
+									"name": "copy_data_test",
 									"type": "Copy",
 									"dependsOn": [],
 									"policy": {
@@ -634,11 +461,11 @@
 												"lat": 42.3601,
 												"lon": -71.0589,
 												"start": {
-													"value": "@item().start",
+													"value": "@div(sub(ticks(addDays(utcNow(), mul(add(item(), 1), -7))), ticks('1970-01-01T00:00:00Z')), 10000000)\n",
 													"type": "Expression"
 												},
 												"end": {
-													"value": "@item().end",
+													"value": "@div(sub(ticks(addDays(utcNow(), mul(item(), -7))), ticks('1970-01-01T00:00:00Z')), 10000000)\n",
 													"type": "Expression"
 												},
 												"appid": "@activity('Web1').output.value",
@@ -668,38 +495,23 @@
 					"endDate": {
 						"type": "string"
 					},
-					"dateRanges": {
-						"type": "array",
+					"weeksAgo": {
+						"type": "int",
+						"defaultValue": 52
+					}
+				},
+				"variables": {
+					"dateRangesVar2": {
+						"type": "Array",
 						"defaultValue": [
 							{
-								"start": "1723047463",
-								"end": "1723652263"
-							},
-							{
-								"start": "1723652263",
-								"end": "1724257063"
-							},
-							{
-								"start": "1724257063",
-								"end": "1724861863"
-							},
-							{
-								"start": "1724861863",
-								"end": "1725466663"
-							},
-							{
-								"start": "1725466663",
-								"end": "1726071463"
-							},
-							{
-								"start": "1726071463",
-								"end": "1726676263"
-							},
-							{
-								"start": "1726676263",
-								"end": "1727281063"
+								"start": "1691452800",
+								"end": "1692057600"
 							}
 						]
+					},
+					"test": {
+						"type": "Array"
 					}
 				},
 				"annotations": []
