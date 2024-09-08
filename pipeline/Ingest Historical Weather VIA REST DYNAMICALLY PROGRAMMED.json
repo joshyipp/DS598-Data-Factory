@@ -126,14 +126,38 @@
 					"isSequential": true,
 					"activities": [
 						{
+							"name": "temp set variable",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "dateRangesVariable",
+								"value": [
+									"{{\"start\": 1691452800",
+									" \"end\": 1692057600}}"
+								]
+							}
+						},
+						{
 							"name": "Append variable1",
 							"type": "AppendVariable",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "temp set variable",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"userProperties": [],
 							"typeProperties": {
 								"variableName": "dateRangesVar2",
 								"value": {
-									"value": "{\"start\": \"1691452800\", \"end\": \"1692057600\"}",
+									"value": "@variables('dateRangesVariable')",
 									"type": "Expression"
 								}
 							}
