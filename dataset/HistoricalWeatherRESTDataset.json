@@ -16,11 +16,11 @@
 			},
 			"start": {
 				"type": "string",
-				"defaultValue": "@item().start"
+				"defaultValue": "@div(ticks(addDays(utcNow(), mul(sub(pipeline().parameters.weeksAgo 1), -7))), 10000000)"
 			},
 			"end": {
 				"type": "string",
-				"defaultValue": "@item().end"
+				"defaultValue": "@div(ticks(addDays(utcNow(), mul(sub(pipeline().parameters.weeksAgo 0), -7))), 10000000)"
 			},
 			"appid": {
 				"type": "string",
