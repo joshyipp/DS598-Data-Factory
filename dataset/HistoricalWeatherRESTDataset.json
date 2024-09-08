@@ -15,12 +15,10 @@
 				"defaultValue": -71.0589
 			},
 			"start": {
-				"type": "string",
-				"defaultValue": "@div(ticks(addDays(utcNow(), mul(sub(pipeline().parameters.weeksAgo 0), -7))), 10000000)"
+				"type": "string"
 			},
 			"end": {
-				"type": "string",
-				"defaultValue": "@div(ticks(addDays(utcNow(), mul(sub(pipeline().parameters.weeksAgo 1), -7))), 10000000)"
+				"type": "string"
 			},
 			"appid": {
 				"type": "string",

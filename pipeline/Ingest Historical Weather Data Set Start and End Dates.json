@@ -83,6 +83,8 @@
 									"parameters": {
 										"lat": 42.3601,
 										"lon": -71.0589,
+										"start": "@item().start",
+										"end": "@item().end",
 										"appid": "@activity('Web1').output.value",
 										"dataType": "hour"
 									}
@@ -99,48 +101,14 @@
 				}
 			},
 			{
-				"name": "ForEach2",
-				"type": "ForEach",
+				"name": "Set variable1",
+				"description": "",
+				"type": "SetVariable",
 				"dependsOn": [
 					{
 						"activity": "Web1",
 						"dependencyConditions": [
 							"Completed"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"items": {
-						"value": "@range(0,3)",
-						"type": "Expression"
-					},
-					"isSequential": true,
-					"activities": [
-						{
-							"name": "Append variable1",
-							"type": "AppendVariable",
-							"dependsOn": [],
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "dateRangesVar2",
-								"value": {
-									"value": "@json('{\"start\": 1691452800,\"end\":1692057600}')",
-									"type": "Expression"
-								}
-							}
-						}
-					]
-				}
-			},
-			{
-				"name": "Set variable1",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "ForEach2",
-						"dependencyConditions": [
-							"Succeeded"
 						]
 					}
 				],
@@ -150,7 +118,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "test",
+					"variableName": "dateRangesVar2",
 					"value": {
 						"value": "@json(concat('[', join(variables('dateRangesVar2'), ','), ']'))",
 						"type": "Expression"

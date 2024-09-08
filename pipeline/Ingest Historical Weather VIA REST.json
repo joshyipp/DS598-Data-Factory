@@ -37,13 +37,13 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@range(0,2)",
+						"value": "@range(0, pipeline().parameters.weeksAgo)",
 						"type": "Expression"
 					},
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "Copy data1_copy1",
+							"name": "copy_data_test",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -84,11 +84,11 @@
 										"lat": 42.3601,
 										"lon": -71.0589,
 										"start": {
-											"value": "@string(div(ticks(addDays(utcNow(), mul(item(), -7))), 10000000))",
+											"value": "@div(sub(ticks(addDays(utcNow(), mul(add(item(), 1), -7))), ticks('1970-01-01T00:00:00Z')), 10000000)\n",
 											"type": "Expression"
 										},
 										"end": {
-											"value": "@string(div(ticks(addDays(utcNow(), mul(add(item(), 1), -7))), 10000000))\n",
+											"value": "@div(sub(ticks(addDays(utcNow(), mul(item(), -7))), ticks('1970-01-01T00:00:00Z')), 10000000)\n",
 											"type": "Expression"
 										},
 										"appid": "@activity('Web1').output.value",
@@ -113,6 +113,10 @@
 			},
 			"endDate": {
 				"type": "string"
+			},
+			"weeksAgo": {
+				"type": "int",
+				"defaultValue": 52
 			}
 		},
 		"variables": {
