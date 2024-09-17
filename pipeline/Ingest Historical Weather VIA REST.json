@@ -108,29 +108,9 @@
 			}
 		],
 		"parameters": {
-			"startDate": {
-				"type": "string"
-			},
-			"endDate": {
-				"type": "string"
-			},
 			"weeksAgo": {
 				"type": "int",
 				"defaultValue": 52
-			}
-		},
-		"variables": {
-			"dateRangesVar2": {
-				"type": "Array",
-				"defaultValue": [
-					{
-						"start": "1691452800",
-						"end": "1692057600"
-					}
-				]
-			},
-			"test": {
-				"type": "Array"
 			}
 		},
 		"annotations": []
