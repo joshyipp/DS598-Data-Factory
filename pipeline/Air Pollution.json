@@ -55,7 +55,8 @@
 					"sink": {
 						"type": "JsonSink",
 						"storeSettings": {
-							"type": "AzureBlobFSWriteSettings"
+							"type": "AzureBlobFSWriteSettings",
+							"copyBehavior": "MergeFiles"
 						},
 						"formatSettings": {
 							"type": "JsonWriteSettings"
@@ -71,11 +72,11 @@
 							"lat": 42.3601,
 							"lon": -71.0589,
 							"start": {
-								"value": "@div(ticks(addDays(utcNow(), -365)), 10000000)",
+								"value": "@ticks(addDays(utcNow(), -365))",
 								"type": "Expression"
 							},
 							"end": {
-								"value": "@div(ticks(addDays(utcNow(), -1)), 10000000)",
+								"value": "@ticks(addDays(utcNow(), -1))",
 								"type": "Expression"
 							},
 							"appid": "@activity('Web1').output.value"
