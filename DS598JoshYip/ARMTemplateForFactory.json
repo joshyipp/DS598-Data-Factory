@@ -606,6 +606,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
+						"fileName": "airpollution_output.json",
 						"folderPath": "raw_airpollution",
 						"fileSystem": "bigdata-container"
 					}
