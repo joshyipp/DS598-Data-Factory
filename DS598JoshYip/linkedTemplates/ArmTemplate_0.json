@@ -45,7 +45,7 @@
 		},
 		"AirPollutionConnection_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://history.openweathermap.org/"
+			"defaultValue": "http://api.openweathermap.org/"
 		},
 		"JoshYipAirPollution_properties_typeProperties_url": {
 			"type": "string",
@@ -329,10 +329,12 @@
 				},
 				"parameters": {
 					"lat": {
-						"type": "float"
+						"type": "float",
+						"defaultValue": 42.3601
 					},
 					"lon": {
-						"type": "float"
+						"type": "float",
+						"defaultValue": -71.0589
 					},
 					"start": {
 						"type": "string"
@@ -369,6 +371,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
+						"folderPath": "raw_airpollution",
 						"fileSystem": "bigdata-container"
 					}
 				},
@@ -502,7 +505,7 @@
 						}
 					},
 					{
-						"name": "Copy Historical Weather",
+						"name": "air pollution",
 						"type": "Copy",
 						"dependsOn": [
 							{
@@ -549,11 +552,11 @@
 									"lat": 42.3601,
 									"lon": -71.0589,
 									"start": {
-										"value": "@div(sub(ticks(addDays(utcNow(), -365)), ticks('1970-01-01T00:00:00Z')), 10000000)",
+										"value": "@div(ticks(addDays(utcNow(), -365)), 10000000)",
 										"type": "Expression"
 									},
 									"end": {
-										"value": "@div(sub(ticks(utcNow()), ticks('1970-01-01T00:00:00Z')), 10000000)",
+										"value": "@div(ticks(addDays(utcNow(), -1)), 10000000)",
 										"type": "Expression"
 									},
 									"appid": "@activity('Web1').output.value"
@@ -562,7 +565,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "HistoricalWeatherRawDataset_to_ADLS",
+								"referenceName": "Json1",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -577,7 +580,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/AirPollution')]",
-				"[concat(variables('factoryId'), '/datasets/HistoricalWeatherRawDataset_to_ADLS')]"
+				"[concat(variables('factoryId'), '/datasets/Json1')]"
 			]
 		},
 		{

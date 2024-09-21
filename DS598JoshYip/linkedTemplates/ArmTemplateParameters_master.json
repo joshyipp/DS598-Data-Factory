@@ -33,7 +33,7 @@
 			"value": "https://static.nhtsa.gov/odi/ffdd/cmpl/FLAT_CMPL.zip"
 		},
 		"AirPollutionConnection_properties_typeProperties_url": {
-			"value": "https://history.openweathermap.org/"
+			"value": "http://api.openweathermap.org/"
 		},
 		"JoshYipAirPollution_properties_typeProperties_url": {
 			"value": "https://bdhomeworkstorage.dfs.core.windows.net/"

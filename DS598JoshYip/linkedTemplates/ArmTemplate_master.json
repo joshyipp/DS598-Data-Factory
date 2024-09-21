@@ -45,7 +45,7 @@
 		},
 		"AirPollutionConnection_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://history.openweathermap.org/"
+			"defaultValue": "http://api.openweathermap.org/"
 		},
 		"JoshYipAirPollution_properties_typeProperties_url": {
 			"type": "string",
