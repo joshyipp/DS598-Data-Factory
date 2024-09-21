@@ -11,6 +11,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'JoshYipADLS'"
 		},
+		"JoshYipAirPollution_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'JoshYipAirPollution'"
+		},
 		"JoshYipADLS_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://bdhomeworkstorage.dfs.core.windows.net/"
@@ -38,6 +42,14 @@
 		"online_connection_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://static.nhtsa.gov/odi/ffdd/cmpl/FLAT_CMPL.zip"
+		},
+		"AirPollutionConnection_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://history.openweathermap.org/"
+		},
+		"JoshYipAirPollution_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://bdhomeworkstorage.dfs.core.windows.net/"
 		}
 	},
 	"variables": {
@@ -156,6 +168,38 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AirPollutionConnection')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('AirPollutionConnection_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/JoshYipAirPollution')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('JoshYipAirPollution_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('JoshYipAirPollution_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/HistoricalWeatherDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -260,6 +304,10 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "concat(item().fileName, '.json')",
+							"type": "Expression"
+						},
 						"folderPath": "raw",
 						"fileSystem": "bigdata-container"
 					}
@@ -271,7 +319,162 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Ingest Historical Weather Data')]",
+			"name": "[concat(parameters('factoryName'), '/AirPollution')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AirPollutionConnection",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"lat": {
+						"type": "float"
+					},
+					"lon": {
+						"type": "float"
+					},
+					"start": {
+						"type": "string"
+					},
+					"end": {
+						"type": "string"
+					},
+					"appid": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "RestResource",
+				"typeProperties": {
+					"relativeUrl": "data/2.5/air_pollution/history?lat=@{dataset().lat}&lon=@{dataset().lon}&start=@{dataset().start}&end=@{dataset().end}&appid=@{dataset().appid}"
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AirPollutionConnection')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Json1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "JoshYipAirPollution",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "bigdata-container"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"message": {
+							"type": "string"
+						},
+						"cod": {
+							"type": "string"
+						},
+						"city_id": {
+							"type": "integer"
+						},
+						"calctime": {
+							"type": "number"
+						},
+						"cnt": {
+							"type": "integer"
+						},
+						"list": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"dt": {
+										"type": "integer"
+									},
+									"main": {
+										"type": "object",
+										"properties": {
+											"temp": {
+												"type": "number"
+											},
+											"feels_like": {
+												"type": "number"
+											},
+											"pressure": {
+												"type": "integer"
+											},
+											"humidity": {
+												"type": "integer"
+											},
+											"temp_min": {
+												"type": "number"
+											},
+											"temp_max": {
+												"type": "number"
+											}
+										}
+									},
+									"wind": {
+										"type": "object",
+										"properties": {
+											"speed": {
+												"type": "number"
+											},
+											"deg": {
+												"type": "integer"
+											},
+											"gust": {
+												"type": "number"
+											}
+										}
+									},
+									"clouds": {
+										"type": "object",
+										"properties": {
+											"all": {
+												"type": "integer"
+											}
+										}
+									},
+									"weather": {
+										"type": "array",
+										"items": {
+											"type": "object",
+											"properties": {
+												"id": {
+													"type": "integer"
+												},
+												"main": {
+													"type": "string"
+												},
+												"description": {
+													"type": "string"
+												},
+												"icon": {
+													"type": "string"
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/JoshYipAirPollution')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Air Pollution')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -319,13 +522,12 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "JsonSource",
-								"storeSettings": {
-									"type": "HttpReadSettings",
-									"requestMethod": "GET"
-								},
-								"formatSettings": {
-									"type": "JsonReadSettings"
+								"type": "RestSource",
+								"httpRequestTimeout": "00:01:40",
+								"requestInterval": "00.00:00:00.010",
+								"requestMethod": "GET",
+								"paginationRules": {
+									"supportRFC5988": "true"
 								}
 							},
 							"sink": {
@@ -341,13 +543,19 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "HistoricalWeatherDataset",
+								"referenceName": "AirPollution",
 								"type": "DatasetReference",
 								"parameters": {
 									"lat": 42.3601,
 									"lon": -71.0589,
-									"start": "1691452800",
-									"end": "1720324800",
+									"start": {
+										"value": "@div(sub(ticks(addDays(utcNow(), -365)), ticks('1970-01-01T00:00:00Z')), 10000000)",
+										"type": "Expression"
+									},
+									"end": {
+										"value": "@div(sub(ticks(utcNow()), ticks('1970-01-01T00:00:00Z')), 10000000)",
+										"type": "Expression"
+									},
 									"appid": "@activity('Web1').output.value"
 								}
 							}
@@ -368,7 +576,7 @@
 				"lastPublishTime": "2024-07-21T20:29:37Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/HistoricalWeatherDataset')]",
+				"[concat(variables('factoryId'), '/datasets/AirPollution')]",
 				"[concat(variables('factoryId'), '/datasets/HistoricalWeatherRawDataset_to_ADLS')]"
 			]
 		},
@@ -444,8 +652,7 @@
 										"sink": {
 											"type": "JsonSink",
 											"storeSettings": {
-												"type": "AzureBlobFSWriteSettings",
-												"copyBehavior": "FlattenHierarchy"
+												"type": "AzureBlobFSWriteSettings"
 											},
 											"formatSettings": {
 												"type": "JsonWriteSettings"
@@ -461,7 +668,7 @@
 												"lat": 42.3601,
 												"lon": -71.0589,
 												"start": {
-													"value": "@div(sub(ticks(addDays(utcNow(), mul(add(item(), 1), -7))), ticks('1970-01-01T00:00:00Z')), 10000000)\n",
+													"value": "@div(sub(ticks(addDays(utcNow(), mul(add(item(),1), -7))), ticks('1970-01-01T00:00:00Z')), 10000000)\n",
 													"type": "Expression"
 												},
 												"end": {
@@ -475,7 +682,7 @@
 									],
 									"outputs": [
 										{
-											"referenceName": "HistoricalWeatherRawDataset_to_ADLS",
+											"referenceName": "Json1",
 											"type": "DatasetReference",
 											"parameters": {}
 										}
@@ -498,7 +705,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/HistoricalWeatherRESTDataset')]",
-				"[concat(variables('factoryId'), '/datasets/HistoricalWeatherRawDataset_to_ADLS')]"
+				"[concat(variables('factoryId'), '/datasets/Json1')]"
 			]
 		}
 	]

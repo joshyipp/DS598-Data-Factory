@@ -8,6 +8,9 @@
 		"JoshYipADLS_accountKey": {
 			"value": ""
 		},
+		"JoshYipAirPollution_accountKey": {
+			"value": ""
+		},
 		"JoshYipADLS_properties_typeProperties_url": {
 			"value": "https://bdhomeworkstorage.dfs.core.windows.net/"
 		},
@@ -28,6 +31,12 @@
 		},
 		"online_connection_properties_typeProperties_url": {
 			"value": "https://static.nhtsa.gov/odi/ffdd/cmpl/FLAT_CMPL.zip"
+		},
+		"AirPollutionConnection_properties_typeProperties_url": {
+			"value": "https://history.openweathermap.org/"
+		},
+		"JoshYipAirPollution_properties_typeProperties_url": {
+			"value": "https://bdhomeworkstorage.dfs.core.windows.net/"
 		}
 	}
 }
