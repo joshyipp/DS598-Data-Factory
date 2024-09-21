@@ -10,6 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
+				"folderPath": "raw_airpollution",
 				"fileSystem": "bigdata-container"
 			}
 		},
