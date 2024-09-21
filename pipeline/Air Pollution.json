@@ -71,11 +71,11 @@
 							"lat": 42.3601,
 							"lon": -71.0589,
 							"start": {
-								"value": "@div(sub(ticks(addDays(utcNow(), -365)), ticks('1970-01-01T00:00:00Z')), 10000000)",
+								"value": "@ticks(addDays(utcNow(), -365))",
 								"type": "Expression"
 							},
 							"end": {
-								"value": "@div(sub(ticks(utcNow()), ticks('1970-01-01T00:00:00Z')), 10000000)",
+								"value": "@ticks(addDays(utcNow(), -1))",
 								"type": "Expression"
 							},
 							"appid": "@activity('Web1').output.value"
