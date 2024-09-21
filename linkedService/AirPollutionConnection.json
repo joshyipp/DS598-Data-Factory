@@ -4,7 +4,7 @@
 		"annotations": [],
 		"type": "RestService",
 		"typeProperties": {
-			"url": "https://history.openweathermap.org/",
+			"url": "http://api.openweathermap.org/",
 			"enableServerCertificateValidation": true,
 			"authenticationType": "Anonymous"
 		}
