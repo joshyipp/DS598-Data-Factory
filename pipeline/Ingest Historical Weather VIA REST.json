@@ -67,12 +67,10 @@
 								"sink": {
 									"type": "JsonSink",
 									"storeSettings": {
-										"type": "AzureBlobFSWriteSettings",
-										"copyBehavior": "FlattenHierarchy"
+										"type": "AzureBlobFSWriteSettings"
 									},
 									"formatSettings": {
-										"type": "JsonWriteSettings",
-										"filePattern": "arrayOfObjects"
+										"type": "JsonWriteSettings"
 									}
 								},
 								"enableStaging": false
@@ -99,7 +97,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "HistoricalWeatherRawDataset_to_ADLS",
+									"referenceName": "Json1",
 									"type": "DatasetReference"
 								}
 							]

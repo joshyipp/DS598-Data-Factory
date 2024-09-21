@@ -1,0 +1,32 @@
+{
+	"name": "AirPollution",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AirPollutionConnection",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"lat": {
+				"type": "float"
+			},
+			"lon": {
+				"type": "float"
+			},
+			"start": {
+				"type": "string"
+			},
+			"end": {
+				"type": "string"
+			},
+			"appid": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": "data/2.5/air_pollution/history?lat=@{dataset().lat}&lon=@{dataset().lon}&start=@{dataset().start}&end=@{dataset().end}&appid=@{dataset().appid}"
+		},
+		"schema": []
+	}
+}
