@@ -84,7 +84,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "HistoricalWeatherRawDataset_to_ADLS",
+						"referenceName": "Json1",
 						"type": "DatasetReference"
 					}
 				]
